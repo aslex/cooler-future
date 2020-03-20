@@ -1,39 +1,57 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 
-const UserProfile = props => {
+const UserProfile = navigation => {
+  console.log("NAV:", navigation);
+
   const handleEdit = () => {
     console.log("click");
   };
+
   return (
-    <View style={props.styles.profile}>
-      <Text style={props.styles.profileDetails}>
-        <h4>Your Profile</h4>
+    <View style={styles.profile}>
+      <Text style={styles.profileDetails}>
         <img
           alt="user photo"
           style={{ width: "50%", height: "auto", borderRadius: "50%" }}
-          src={props.user.photo}
+          src={navigation.user.photo}
         />
-        <p>First Name: {props.user.firstName}</p>
-        <p>Last Name: {props.user.lastName}</p>
-        <p>Passport Number: {props.user.passportNum}</p>
+        <p>First Name: {navigation.user.firstName}</p>
+        <p>Last Name: {navigation.user.lastName}</p>
+        <p>Passport Number: {navigation.user.passportNum}</p>
         <p>
-          Address: {props.user.streetAddress}, {props.user.postCode}{" "}
-          {props.user.country}
+          Address: {navigation.user.streetAddress}, {navigation.user.postCode}{" "}
+          {navigation.user.country}
         </p>
-        <p>email: {props.user.email}</p>
+        <p>email: {navigation.user.email}</p>
         <p>password: *****</p>
-        <p>username: {props.user.username}</p>
+        <p>username: {navigation.user.username}</p>
       </Text>
-      <View style={props.styles.button}>
-        <Button
-          color={"#40bd62"}
-          title="edit my details"
-          onPress={handleEdit}
-        />
-      </View>
+
+      <Button
+        color={"#40bd62"}
+        title="edit my details"
+        onPress={() => navigation.navigation.navigate("EditProfile")}
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    flex: 1,
+    flexDirection: "row"
+  },
+  profile: {
+    flex: 1,
+    width: "90%",
+    margin: 20
+  },
+  profileDetails: {
+    flex: 1,
+    color: "#404040"
+  }
+});
 
 export default UserProfile;

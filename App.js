@@ -1,27 +1,46 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import UserProfile from "./components/UserProfile";
+import EditProfile from './components/EditProfile';
 import user from "./seeds/userInfo";
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Home from './components/Home';
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    // fetch user info from database
+    // fetch user info
     setUserInfo(user);
   }, []);
 
   return (
-    <>
+    <NavigationContainer>
       <View style={styles.header}>
         <Text style={styles.headerText}>Cooler Future</Text>
       </View>
-      <View style={styles.container}>
+      {/* <View style={styles.container}> */}
+      
+      <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+          name="Home"
+          component={Home}
+          options={userInfo && { title: `Welcome, ${userInfo.firstName}` }}
+          
+        />
         {/* to check if a user is logged in - the parent component should pass down a user session */}
         {/* props.user &&  <UserProfile /> */}
-        <UserProfile user={userInfo} styles={styles} />
-      </View>
-    </>
+        <Stack.Screen name="Profile" >{props => <UserProfile {...props} user={userInfo} styles={styles.profile}/>}</Stack.Screen>
+
+        <Stack.Screen name="EditProfile" >{props => <EditProfile {...props} user={userInfo} styles={styles.profile}/>}</Stack.Screen>
+       
+        </Stack.Navigator>
+      {/* </View> */}
+    </NavigationContainer>
   );
 }
 
@@ -44,16 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     fontSize: 40
   },
-  profile: {
-    flex: 1,
 
-    width: '80%',
-
-  },
-  profileDetails: {
-    flex: 1,
-    color: '#404040',
-  },
   button: {
 flex: 1,
 justifyContent:'space-around'
