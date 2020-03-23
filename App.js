@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import UserProfile from "./components/UserProfile";
-import EditProfile from './components/EditProfile';
+import KnowYourCustomer from './components/KnowYourCustomer';
 import user from "./seeds/userInfo";
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -14,7 +14,7 @@ export default function App() {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    // fetch user info
+    // fetch user info 
     setUserInfo(user);
   }, []);
 
@@ -23,7 +23,7 @@ export default function App() {
       <View style={styles.header}>
         <Text style={styles.headerText}>Cooler Future</Text>
       </View>
-      {/* <View style={styles.container}> */}
+      
       
       <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -34,12 +34,12 @@ export default function App() {
         />
         {/* to check if a user is logged in - the parent component should pass down a user session */}
         {/* props.user &&  <UserProfile /> */}
-        <Stack.Screen name="Profile" >{props => <UserProfile {...props} user={userInfo} styles={styles.profile}/>}</Stack.Screen>
-
-        <Stack.Screen name="EditProfile" >{props => <EditProfile {...props} user={userInfo} styles={styles.profile}/>}</Stack.Screen>
-       
+        <Stack.Screen name="Profile" >{props => <UserProfile {...props} user={userInfo} />}</Stack.Screen>
+      
+        <Stack.Screen name="ValidationPage" component={KnowYourCustomer}
+        />
         </Stack.Navigator>
-      {/* </View> */}
+
     </NavigationContainer>
   );
 }
@@ -62,10 +62,6 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica",
     fontWeight: "200",
     fontSize: 40
-  },
-
-  button: {
-flex: 1,
-justifyContent:'space-around'
   }
+
 });
